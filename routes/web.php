@@ -53,6 +53,14 @@ Route::post('/logout', function (Request $request) {
     return redirect('/');
 })->name('logout');
 
+// ── Force Logout ──────────────────────────────────────────────────────────
+Route::get('/force-logout', function () {
+    Auth::guard('web')->logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/');
+});
+
 // ── User Profile ──────────────────────────────────────────────────────────
 Route::middleware('auth')->group(function () {
     Route::get('/profile',          [UserProfileController::class, 'show'])   ->name('profile');

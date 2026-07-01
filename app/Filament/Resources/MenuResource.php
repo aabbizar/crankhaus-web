@@ -5,8 +5,8 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\MenuResource\Pages;
 use App\Models\Menu;
 use Filament\Schemas\Components\Section;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Select;
@@ -161,7 +161,7 @@ class MenuResource extends Resource
             ])
             ->actions([
                 EditAction::make(),
-                \Filament\Actions\Action::make('toggle_availability')
+                \Filament\Tables\Actions\Action::make('toggle_availability')
                     ->label(fn (Menu $record) => $record->is_available ? 'Nonaktifkan' : 'Aktifkan')
                     ->icon(fn (Menu $record) => $record->is_available ? 'heroicon-o-eye-slash' : 'heroicon-o-eye')
                     ->color(fn (Menu $record) => $record->is_available ? 'warning' : 'success')
@@ -170,8 +170,8 @@ class MenuResource extends Resource
                 DeleteAction::make(),
             ])
             ->bulkActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                \Filament\Tables\Actions\BulkActionGroup::make([
+                    \Filament\Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ])
             ->defaultSort('category')

@@ -149,7 +149,7 @@ class ReservationResource extends Resource
                     ->default(),
             ])
             ->actions([
-                \Filament\Actions\Action::make('confirm')
+                \Filament\Tables\Actions\Action::make('confirm')
                     ->label('Confirm')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -162,7 +162,7 @@ class ReservationResource extends Resource
                             ->send();
                     }),
 
-                \Filament\Actions\Action::make('cancel')
+                \Filament\Tables\Actions\Action::make('cancel')
                     ->label('Cancel')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
@@ -176,12 +176,12 @@ class ReservationResource extends Resource
                             ->send();
                     }),
 
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
+                \Filament\Tables\Actions\EditAction::make(),
+                \Filament\Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
+                \Filament\Tables\Actions\BulkActionGroup::make([
+                    \Filament\Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }

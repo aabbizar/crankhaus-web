@@ -14,9 +14,9 @@ use Filament\Schemas\Schema;
 use Filament\Forms\Form;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Actions\ViewAction;
-use Filament\Actions\EditAction;
-use Filament\Actions\DeleteAction;
+use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
 use Filament\Forms\Components\Select;
 
 class OrderResource extends Resource
@@ -187,7 +187,7 @@ class OrderResource extends Resource
                 EditAction::make(),
                 DeleteAction::make(),
 
-                \Filament\Actions\Action::make('process')
+                \Filament\Tables\Actions\Action::make('process')
                     ->label('Proses')
                     ->icon('heroicon-o-fire')
                     ->color('warning')
@@ -204,7 +204,7 @@ class OrderResource extends Resource
                             ->send();
                     }),
 
-                \Filament\Actions\Action::make('complete')
+                \Filament\Tables\Actions\Action::make('complete')
                     ->label('Selesai ✓')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -222,8 +222,8 @@ class OrderResource extends Resource
                     }),
             ])
             ->bulkActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\BulkAction::make('bulk_complete')
+                \Filament\Tables\Actions\BulkActionGroup::make([
+                    \Filament\Tables\Actions\BulkAction::make('bulk_complete')
                         ->label('Tandai Selesai')
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
