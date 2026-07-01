@@ -3,7 +3,11 @@
     "builds": [
         {
             "src": "api/index.php",
-            "use": "vercel-php@0.6.2"
+            "use": "vercel-php@0.6.2",
+            "config": {
+                "runtime": "php-8.2",
+                "extensions": ["pdo_pgsql", "pgsql"]
+            }
         },
         {
             "src": "/public/**",
