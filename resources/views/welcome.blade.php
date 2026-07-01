@@ -218,23 +218,27 @@
                 <div class="absolute inset-4 md:inset-8 lg:inset-12 bg-black/20 rounded-[14px]"></div>
             </div>
             
-            <div class="relative z-10 w-full flex flex-col justify-center pointer-events-none" style="transform: rotate(-2deg) scale(1.1);">
-                <div class="whitespace-nowrap flex overflow-hidden">
-                    <h2 class="font-display font-black uppercase text-[#eba13d] leading-[0.85] marquee-row-1"
-                        style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em;">
-                        EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; 
+            {{-- Scroll-driven marquee: rows move horizontally as you scroll --}}
+            <div class="relative z-10 w-full flex flex-col justify-center pointer-events-none" style="transform: rotate(-2deg) scale(1.12);">
+                {{-- Row 1: scrolls LEFT --}}
+                <div class="whitespace-nowrap overflow-hidden">
+                    <h2 id="mq-row-1" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
+                        style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(0);">
+                        EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp;
                     </h2>
                 </div>
-                <div class="whitespace-nowrap flex overflow-hidden -ml-[15vw]">
-                    <h2 class="font-display font-black uppercase text-[#eba13d] leading-[0.85] marquee-row-2"
-                        style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em;">
-                        FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; 
+                {{-- Row 2: scrolls RIGHT --}}
+                <div class="whitespace-nowrap overflow-hidden -ml-[15vw]">
+                    <h2 id="mq-row-2" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
+                        style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(-120px);">
+                        FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp;
                     </h2>
                 </div>
-                <div class="whitespace-nowrap flex overflow-hidden -ml-[5vw]">
-                    <h2 class="font-display font-black uppercase text-[#eba13d] leading-[0.85] marquee-row-3"
-                        style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em;">
-                        PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp; 
+                {{-- Row 3: scrolls LEFT --}}
+                <div class="whitespace-nowrap overflow-hidden -ml-[5vw]">
+                    <h2 id="mq-row-3" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
+                        style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(-60px);">
+                        PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp;
                     </h2>
                 </div>
             </div>
@@ -690,36 +694,36 @@
                 ease: 'power3.out'
             });
 
-            // MARQUEE SCROLLTRIGGER
+            // MARQUEE SCROLLTRIGGER — scroll-driven horizontal parallax
             if (document.getElementById('marquee-section')) {
-                gsap.to('.marquee-row-1', {
-                    xPercent: -30,
+                gsap.to('#mq-row-1', {
+                    xPercent: -25,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: '#marquee-section',
                         start: 'top bottom',
                         end: 'bottom top',
-                        scrub: true
+                        scrub: 1.2
                     }
                 });
-                gsap.to('.marquee-row-2', {
-                    xPercent: 30,
+                gsap.to('#mq-row-2', {
+                    xPercent: 20,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: '#marquee-section',
                         start: 'top bottom',
                         end: 'bottom top',
-                        scrub: true
+                        scrub: 1.2
                     }
                 });
-                gsap.to('.marquee-row-3', {
-                    xPercent: -20,
+                gsap.to('#mq-row-3', {
+                    xPercent: -18,
                     ease: 'none',
                     scrollTrigger: {
                         trigger: '#marquee-section',
                         start: 'top bottom',
                         end: 'bottom top',
-                        scrub: true
+                        scrub: 1.2
                     }
                 });
             }

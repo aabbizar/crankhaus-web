@@ -8,47 +8,108 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-        <style>
-            /* ── Design System (DESIGN.md) ── */
-            @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap');
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://unpkg.com/split-type"></script>
+    </head>
+    <body class="antialiased overflow-x-hidden"
+          style="background: #235c47; background-image: radial-gradient(circle at center, #2c7258 0%, #1a4736 100%); color: #efe1d9; font-family: 'Inter', sans-serif; min-height: 100vh;">
+        <x-page-transitions />
 
-            :root {
-                --clr-bg: #235c47;
-                --clr-accent: #eba13d;
-                --clr-secondary: #b42638;
-                --clr-border: #efe1d9;
-                --clr-text: #eba13d;
-                --clr-text-muted: #999999;
-                --clr-dark: #020b0a;
-                --shadow-high: rgba(0,0,0,0.2) 0px 4px 16px 0px;
+        {{-- ── Background: subtle animated gradient ── --}}
+        <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
+            <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 70% at 50% 0%, rgba(180,38,56,0.15) 0%, transparent 70%);"></div>
+            <div class="absolute inset-0" style="background: radial-gradient(ellipse 60% 60% at 80% 80%, rgba(235,161,61,0.08) 0%, transparent 65%);"></div>
+        </div>
+
+        {{-- ── Page wrapper — properly centered ── --}}
+        <div class="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
+
+            {{-- Card — max-width capped, not stretching on ultrawide ── --}}
+            <div id="loginCard"
+                 class="w-full shadow-2xl"
+                 style="max-width: 460px; background: #b42638; border-radius: 24px; padding: 48px 44px; border: 1px solid rgba(235,161,61,0.25);">
+
+                {{-- Logo ── --}}
+                <div class="text-center mb-8">
+                    <a href="/" class="inline-flex flex-col items-center gap-2 group no-underline">
+                        <img src="{{ asset('images/CRANK (1).png') }}" alt="CRANKHAUS" class="h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                    </a>
+                </div>
+
+                {{-- Title ── --}}
+                <div class="text-center mb-8">
+                    <h1 id="loginTitle"
+                        class="font-display font-black text-[#eba13d] uppercase mb-2 select-none"
+                        style="font-size: 1.85rem; letter-spacing: 0.02em;">
+                        Welcome Back
+                    </h1>
+                    <p class="font-mono text-xs uppercase tracking-[0.2em] text-[#efe1d9]/70">Sign in to continue</p>
+                </div>
+
+                {{-- Slot content (email, password, buttons from login.blade.php) --}}
+                {{ $slot }}
+
+            </div>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Card entrance
+            var card = document.getElementById('loginCard');
+            if (card && window.gsap) {
+                gsap.fromTo(card,
+                    { y: 40, opacity: 0, scale: 0.96 },
+                    { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power4.out', delay: 0.1 }
+                );
             }
 
-            * { box-sizing: border-box; }
-
-            html, body {
-                margin: 0;
-                padding: 0;
-                min-height: 100vh;
-                background: var(--clr-dark);
+            // Title char reveal
+            if (window.SplitType && window.gsap) {
+                try {
+                    var split = new SplitType('#loginTitle', { types: 'chars' });
+                    gsap.from(split.chars, {
+                        y: 30, opacity: 0, rotationX: -70,
+                        stagger: 0.04, duration: 0.6, ease: 'back.out(2)', delay: 0.25
+                    });
+                } catch(e) {}
             }
 
-            /* ── Page Layout ── */
-            .auth-page {
-                display: flex;
-                min-height: 100vh;
-                position: relative;
+            // Subtle card tilt on mouse
+            var loginCard = document.getElementById('loginCard');
+            if (loginCard && window.gsap) {
+                gsap.set(loginCard, { transformPerspective: 1000 });
+                document.addEventListener('mousemove', function (e) {
+                    var rect = loginCard.getBoundingClientRect();
+                    var cx = e.clientX - rect.left - rect.width  / 2;
+                    var cy = e.clientY - rect.top  - rect.height / 2;
+                    var dist = Math.sqrt(cx * cx + cy * cy);
+                    if (dist < 500) {
+                        gsap.to(loginCard, {
+                            rotationY: cx * 0.04, rotationX: -cy * 0.04,
+                            duration: 0.5, ease: 'power2.out'
+                        });
+                    }
+                });
+                loginCard.addEventListener('mouseleave', function () {
+                    gsap.to(loginCard, { rotationY: 0, rotationX: 0, duration: 1, ease: 'elastic.out(1, 0.3)' });
+                });
             }
+        });
+        </script>
 
-            /* ── LEFT PANEL: Full image ── */
-            .auth-left {
-                position: relative;
-                flex: 1;
-                overflow: hidden;
-                display: none;
-            }
-            @media (min-width: 1024px) { .auth-left { display: block; } }
-
-            .auth-left__img {
+        {{-- ── FOOTER (Background Image - Fixed Perfect Size - Brighter Overlay) ── --}}
+        <footer style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('images/footerfix.jpg') }}') center/cover no-repeat; padding: 16px 10px; width: 100%; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; position: absolute; bottom: 0;">
+            <div class="w-full max-w-screen-2xl mx-auto flex justify-center items-center px-4">
+                <a href="/" style="text-decoration: none; color: white; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                    <div class="font-display font-black" style="line-height: 0.85; letter-spacing: 0.02em; text-align: center;">
+                        <span style="display: block; font-size: clamp(22px, 4vw, 32px); margin: 0; padding: 0; opacity: 0.8;">CRANKHAUS</span>
+                        <span style="display: block; font-size: clamp(14px, 1.8vw, 20px); margin: 0; padding: 0; opacity: 0.8;">2026</span>
+                    </div>
+                </a>
+            </div>
+        </footer>
+    </body>
+</html>
                 position: absolute;
                 inset: 0;
                 width: 100%;
