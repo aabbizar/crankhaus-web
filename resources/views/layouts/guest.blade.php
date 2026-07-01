@@ -74,39 +74,8 @@
                 } catch(e) {}
             }
 
-            // Subtle card tilt on mouse
-            var loginCard = document.getElementById('loginCard');
-            if (loginCard && window.gsap) {
-                gsap.set(loginCard, { transformPerspective: 1000 });
-                document.addEventListener('mousemove', function (e) {
-                    var rect = loginCard.getBoundingClientRect();
-                    var cx = e.clientX - rect.left - rect.width  / 2;
-                    var cy = e.clientY - rect.top  - rect.height / 2;
-                    var dist = Math.sqrt(cx * cx + cy * cy);
-                    if (dist < 500) {
-                        gsap.to(loginCard, {
-                            rotationY: cx * 0.04, rotationX: -cy * 0.04,
-                            duration: 0.5, ease: 'power2.out'
-                        });
-                    }
-                });
-                loginCard.addEventListener('mouseleave', function () {
-                    gsap.to(loginCard, { rotationY: 0, rotationX: 0, duration: 1, ease: 'elastic.out(1, 0.3)' });
-                });
-            }
         });
         </script>
 
-        {{-- ── FOOTER (Background Image - Fixed Perfect Size - Brighter Overlay) ── --}}
-        <footer style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('images/footerfix.jpg') }}') center/cover no-repeat; padding: 16px 10px; width: 100%; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; position: absolute; bottom: 0;">
-            <div class="w-full max-w-screen-2xl mx-auto flex justify-center items-center px-4">
-                <a href="/" style="text-decoration: none; color: white; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-                    <div class="font-display font-black" style="line-height: 0.85; letter-spacing: 0.02em; text-align: center;">
-                        <span style="display: block; font-size: clamp(22px, 4vw, 32px); margin: 0; padding: 0; opacity: 0.8;">CRANKHAUS</span>
-                        <span style="display: block; font-size: clamp(14px, 1.8vw, 20px); margin: 0; padding: 0; opacity: 0.8;">2026</span>
-                    </div>
-                </a>
-            </div>
-        </footer>
     </body>
 </html>
