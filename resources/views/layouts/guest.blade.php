@@ -7,75 +7,45 @@
         <title>Login — {{ config('app.name', 'Crankhaus') }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-        <script src="https://unpkg.com/split-type"></script>
+        
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700;900&display=swap" rel="stylesheet">
     </head>
-    <body class="antialiased overflow-x-hidden"
-          style="background: #235c47; background-image: radial-gradient(circle at center, #2c7258 0%, #1a4736 100%); color: #efe1d9; font-family: 'Inter', sans-serif; min-height: 100vh;">
-        <x-page-transitions />
-
-        {{-- ── Background: subtle animated gradient ── --}}
-        <div class="fixed inset-0 z-0 pointer-events-none" aria-hidden="true">
-            <div class="absolute inset-0" style="background: radial-gradient(ellipse 80% 70% at 50% 0%, rgba(180,38,56,0.15) 0%, transparent 70%);"></div>
-            <div class="absolute inset-0" style="background: radial-gradient(ellipse 60% 60% at 80% 80%, rgba(235,161,61,0.08) 0%, transparent 65%);"></div>
-        </div>
-
-        {{-- ── Page wrapper — properly centered ── --}}
-        <div class="relative z-10 min-h-screen flex items-center justify-center px-4 py-12">
-
-            {{-- Card — max-width capped, not stretching on ultrawide ── --}}
-            <div id="loginCard"
-                 class="w-full shadow-2xl"
-                 style="max-width: 460px; background: #b42638; border-radius: 24px; padding: 48px 44px; border: 1px solid rgba(235,161,61,0.25);">
-
-                {{-- Logo ── --}}
-                <div class="text-center mb-8">
-                    <a href="/" class="inline-flex flex-col items-center gap-2 group no-underline">
-                        <img src="{{ asset('images/CRANK (1).png') }}" alt="CRANKHAUS" class="h-20 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
-                    </a>
-                </div>
-
-                {{-- Title ── --}}
-                <div class="text-center mb-8">
-                    <h1 id="loginTitle"
-                        class="font-display font-black text-[#eba13d] uppercase mb-2 select-none"
-                        style="font-size: 1.85rem; letter-spacing: 0.02em;">
-                        Welcome Back
-                    </h1>
-                    <p class="font-mono text-xs uppercase tracking-[0.2em] text-[#efe1d9]/70">Sign in to continue</p>
-                </div>
-
-                {{-- Slot content (email, password, buttons from login.blade.php) --}}
-                {{ $slot }}
-
+    <body class="antialiased bg-[#f8f9fa] text-gray-900 min-h-screen flex" style="font-family: 'Inter', sans-serif;">
+        
+        {{-- Left Side: Image/Branding (Hidden on mobile) --}}
+        <div class="hidden lg:flex lg:w-1/2 relative bg-[#1a1a1a] items-center justify-center overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-br from-black/60 to-black/20 z-10"></div>
+            <img src="{{ asset('images/cinematic_cafe_hero.png') }}" alt="Crankhaus Vibe" class="absolute inset-0 w-full h-full object-cover opacity-90 scale-105 hover:scale-100 transition-transform duration-[10s] ease-out" />
+            
+            <div class="relative z-20 text-center px-12 transform translate-y-[-20px]">
+                <a href="/">
+                    <img src="{{ asset('images/CRANK (1).png') }}" alt="CRANKHAUS" class="h-32 w-auto mx-auto mb-8 drop-shadow-2xl transition-transform hover:scale-105 duration-300">
+                </a>
+                <h2 class="font-black text-white text-5xl tracking-tight mb-4 drop-shadow-lg" style="font-family: 'Space Grotesk', sans-serif;">EAT. DRINK. RIDE.</h2>
+                <p class="text-white/90 text-lg font-medium tracking-wide drop-shadow">The ultimate destination for cyclists and coffee lovers.</p>
             </div>
         </div>
 
-        <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Card entrance
-            var card = document.getElementById('loginCard');
-            if (card && window.gsap) {
-                gsap.fromTo(card,
-                    { y: 40, opacity: 0, scale: 0.96 },
-                    { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'power4.out', delay: 0.1 }
-                );
-            }
+        {{-- Right Side: Form Container --}}
+        <div class="w-full lg:w-1/2 flex flex-col justify-center px-8 sm:px-16 lg:px-24 bg-white relative shadow-[-20px_0_40px_rgba(0,0,0,0.05)] z-20">
+            {{-- Mobile Logo --}}
+            <div class="absolute top-8 left-8 lg:hidden">
+                 <a href="/">
+                     <img src="{{ asset('images/CRANK (1).png') }}" alt="CRANKHAUS" class="h-10 w-auto filter invert brightness-0">
+                 </a>
+            </div>
 
-            // Title char reveal
-            if (window.SplitType && window.gsap) {
-                try {
-                    var split = new SplitType('#loginTitle', { types: 'chars' });
-                    gsap.from(split.chars, {
-                        y: 30, opacity: 0, rotationX: -70,
-                        stagger: 0.04, duration: 0.6, ease: 'back.out(2)', delay: 0.25
-                    });
-                } catch(e) {}
-            }
+            <div class="w-full max-w-md mx-auto space-y-10 mt-12 lg:mt-0">
+                <div class="space-y-3">
+                    <h1 class="text-4xl font-black text-gray-900 tracking-tight" style="font-family: 'Space Grotesk', sans-serif;">Welcome Back</h1>
+                    <p class="text-gray-500 font-medium text-base">Please enter your details to sign in.</p>
+                </div>
 
-        });
-        </script>
-
+                {{ $slot }}
+            </div>
+        </div>
     </body>
 </html>
