@@ -1,0 +1,70 @@
+Created At: 2026-05-25T09:59:11Z
+Completed At: 2026-05-25T09:59:12Z
+File Path: `file:///c:/Users/abiza/OneDrive/Documents%20Semester%207/ANTI%20GRAVITY/agtokosahaja_project/routes/web.php`
+Total Lines: 62
+Total Bytes: 3159
+Showing lines 1 to 62
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <?php
+2: 
+3: use Illuminate\Support\Facades\Route;
+4: use Illuminate\Support\Facades\Auth;
+5: use Illuminate\Http\Request;
+6: use App\Http\Controllers\UserProfileController;
+7: 
+8: /*
+9:  |─────────────────────────────────────────────────────────────────────────
+10:  | CRANKHAUS — Web Routes
+11:  |─────────────────────────────────────────────────────────────────────────
+12:  | The main catalog is handled by the Livewire MenuCatalog component
+13:  | embedded directly in welcome.blade.php. No controller needed for catalog.
+14:  */
+15: 
+16: // ── Home / Catalog ────────────────────────────────────────────────────────
+17: Route::get('/', function () {
+18:     return view('welcome');
+19: })->name('home');
+20: 
+21: Route::get('/menu', function () {
+22:     return view('menu');
+23: })->name('menu');
+24: 
+25: // ── Logout ────────────────────────────────────────────────────────────────
+26: Route::post('/logout', function (Request $request) {
+27:     Auth::guard('web')->logout();
+28:     $request->session()->invalidate();
+29:     $request->session()->regenerateToken();
+30:     return redirect('/');
+31: })->name('logout');
+32: 
+33: // ── User Profile ──────────────────────────────────────────────────────────
+34: Route::middleware('auth')->group(function () {
+35:     Route::get('/profile',          [UserProfileController::class, 'show'])   ->name('profile');
+36:     Route::get('/profile/edit',     [UserProfileController::class, 'edit'])   ->name('profile.edit');
+37:     Route::post('/profile/update',  [UserProfileController::class, 'update']) ->name('profile.update');
+38:     Route::post('/profile/password',[UserProfileController::class, 'password'])->name('profile.password');
+39: 
+40:     // API order status update for admin modal popup
+41:     Route::post('/api/orders/{id}/status', function (Request $request, $id) {
+42:         $order = \App\Models\Order::findOrFail($id);
+43:         $status = $request->input('status');
+44: 
+45:         if ($status === 'processing') {
+46:             $order->update(['status' => 'processing']);
+47:             return response()->json(['success' => true, 'message' => 'Pesanan diproses dapur!']);
+48:         } elseif ($status === 'pending') {
+49:             $order->update(['status' => 'pending']);
+50:             return response()->json(['success' => true, 'message' => 'Pesanan diantrikan.']);
+51:         } elseif ($status === 'rejected') {
+52:             $order->delete();
+53:             return response()->json(['success' => true, 'message' => 'Pesanan ditolak & dihapus.']);
+54:         }
+55: 
+56:         return response()->json(['success' => false, 'message' => 'Status tidak valid.'], 400);
+57:     });
+58: });
+59: 
+60: require __DIR__ . '/auth.php';
+61: 
+62: 
+The above content shows the entire, complete file contents of the requested file.
