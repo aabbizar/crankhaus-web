@@ -1,16 +1,6 @@
-{{--
-    ═══════════════════════════════════════════════════════════════
-    CRANKHAUS — GLOBAL PHYSICS ENGINE  v2.0
-    5 Macro-Level Frontend Features:
-    1. Enhanced SPA-like page transitions (3D rotateX depth reveal)
-    2. Gravity-Pull "Add to Cart" bezier trajectory animation
-    3. 3D Receipt Unroll checkout overlay
-    4. Variable-font breathing on scroll velocity
-    5. Cinematic film grain + vignette engine
-    ═══════════════════════════════════════════════════════════════
---}}
 
-{{-- ── FEATURE 3: 3D Receipt Unroll Overlay DOM ── --}}
+
+
 <div id="ck-receipt-overlay"
      aria-hidden="true"
      style="
@@ -43,7 +33,7 @@
             box-shadow: 0 40px 120px rgba(0,0,0,0.7);
          ">
 
-        {{-- Receipt Header --}}
+        
         <div style="background: #020b0a; padding: 28px 32px; text-align: center; position: relative;">
             <button id="ck-receipt-close" aria-label="Close cart"
                     style="position: absolute; top: 16px; right: 16px;
@@ -61,13 +51,13 @@
                         font-size: 24px; letter-spacing: -0.02em;">YOUR BASKET</div>
         </div>
 
-        {{-- Perforated Edge Top --}}
+        
         <div style="height: 16px; background: repeating-linear-gradient(90deg, #f5f0e8 0, #f5f0e8 10px, transparent 10px, transparent 20px), #020b0a; background-size: 20px 100%, 100% 100%;"></div>
 
-        {{-- Receipt Body --}}
+        
         <div id="ck-receipt-items" style="padding: 20px 28px; min-height: 60px;"></div>
 
-        {{-- Receipt Footer --}}
+        
         <div id="ck-receipt-footer" style="padding: 0 28px 28px; opacity: 0;">
             <div style="border-top: 2px dashed rgba(2,11,10,0.15); margin-bottom: 20px; padding-top: 20px; font-family: monospace;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -96,7 +86,7 @@
             </button>
         </div>
 
-        {{-- Tear Edge --}}
+        
         <div style="height: 20px; background:
             radial-gradient(circle at 10px 20px, transparent 9px, #f5f0e8 9px) -10px 0 / 20px 20px,
             radial-gradient(circle at 10px 0, transparent 9px, #ede8e0 9px) 0 0 / 20px 20px;
@@ -105,7 +95,17 @@
 </div>
 
 
-{{-- ── Cart fly-to anchor ── --}}
+<canvas id="ck-grain-canvas" aria-hidden="true"
+        style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;
+               z-index:8000;opacity:0.04;mix-blend-mode:overlay;will-change:opacity;"></canvas>
+
+
+<div id="ck-vignette" aria-hidden="true"
+     style="position:fixed;inset:0;pointer-events:none;z-index:7999;
+            background:radial-gradient(ellipse at center,transparent 40%,rgba(2,11,10,0.55) 100%);
+            opacity:0.6;will-change:opacity;"></div>
+
+
 <div id="ck-cart-target" aria-hidden="true"
      style="position:fixed;top:28px;right:80px;width:1px;height:1px;pointer-events:none;z-index:50;"></div>
 
@@ -418,6 +418,57 @@ function initVariableFontBreathing() {
     }());
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   FEATURE 5: Cinematic Film Grain + Vignette Engine
+   Canvas-based noise reacts to scroll velocity — grain intensifies on fast scroll.
+   ─────────────────────────────────────────────────────────────────────────────*/
+function initFilmGrainEngine() {
+    var canvas   = document.getElementById('ck-grain-canvas');
+    var vignette = document.getElementById('ck-vignette');
+    if (!canvas) return;
+
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width  = window.innerWidth;
+    var H = canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', function () {
+        W = canvas.width  = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+    }, { passive: true });
+
+    var lastY = window.scrollY;
+    var vel   = 0;
+
+    window.addEventListener('scroll', function () {
+        var now = window.scrollY;
+        vel = Math.abs(now - lastY);
+        lastY = now;
+    }, { passive: true });
+
+    var tick = 0;
+    (function loop() {
+        tick++;
+        vel *= 0.82; // decay
+
+        // Redraw grain every 4 frames (~15fps grain — cheaper, still looks real)
+        if (tick % 4 === 0) {
+            var img  = ctx.createImageData(W, H);
+            var data = img.data;
+            for (var i = 0; i < data.length; i += 4) {
+                var n = (Math.random() * 255) | 0;
+                data[i] = data[i+1] = data[i+2] = n;
+                data[i+3] = (Math.random() * 28) | 0;
+            }
+            ctx.putImageData(img, 0, 0);
+        }
+
+        var factor     = Math.min(vel / 30, 1);
+        canvas.style.opacity   = (0.035 + factor * 0.065).toFixed(3);
+        if (vignette) vignette.style.opacity = (0.55 + factor * 0.3).toFixed(3);
+
+        requestAnimationFrame(loop);
+    }());
+}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    BOOTSTRAP
@@ -427,6 +478,7 @@ function boot() {
     initCartTrajectory();
     initReceiptCheckout();
     initVariableFontBreathing();
+    initFilmGrainEngine();
 }
 
 // GSAP may not be ready immediately (Vite async)
@@ -446,3 +498,4 @@ document.addEventListener('livewire:updated', function () {
 
 }());
 </script>
+<?php /**PATH C:\laragon\www\agtokosahaja_project\resources\views/components/global-engine.blade.php ENDPATH**/ ?>
