@@ -387,36 +387,7 @@ function initReceiptCheckout() {
     window.ckCloseReceipt = close;
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   FEATURE 4: Variable Font Breathing — font-weight pulses with scroll velocity
-   ─────────────────────────────────────────────────────────────────────────────*/
-function initVariableFontBreathing() {
-    var targets = document.querySelectorAll('h1.font-display, h2.font-display, .vf-breathe');
-    if (!targets.length) return;
 
-    var lastY   = window.scrollY;
-    var current = 900;
-    var target  = 900;
-    var MIN = 400, MAX = 900;
-
-    window.addEventListener('scroll', function () {
-        var now = window.scrollY;
-        var vel = Math.abs(now - lastY);
-        lastY = now;
-        target = Math.max(MIN, MAX - vel * 20);
-    }, { passive: true });
-
-    (function tick() {
-        current += (target - current) * 0.07;
-        target  += (MAX - target) * 0.04;
-        var w = Math.round(current);
-        targets.forEach(function (el) {
-            el.style.setProperty('--vf-weight', w);
-            el.style.fontWeight = w;
-        });
-        requestAnimationFrame(tick);
-    }());
-}
 
 
 /* ─────────────────────────────────────────────────────────────────────────────
@@ -426,7 +397,6 @@ function boot() {
     initEnhancedTransitions();
     initCartTrajectory();
     initReceiptCheckout();
-    initVariableFontBreathing();
 }
 
 // GSAP may not be ready immediately (Vite async)

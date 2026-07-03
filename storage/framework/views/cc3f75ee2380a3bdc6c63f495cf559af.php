@@ -95,16 +95,6 @@
 </div>
 
 
-<canvas id="ck-grain-canvas" aria-hidden="true"
-        style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;
-               z-index:8000;opacity:0.04;mix-blend-mode:overlay;will-change:opacity;"></canvas>
-
-
-<div id="ck-vignette" aria-hidden="true"
-     style="position:fixed;inset:0;pointer-events:none;z-index:7999;
-            background:radial-gradient(ellipse at center,transparent 40%,rgba(2,11,10,0.55) 100%);
-            opacity:0.6;will-change:opacity;"></div>
-
 
 <div id="ck-cart-target" aria-hidden="true"
      style="position:fixed;top:28px;right:80px;width:1px;height:1px;pointer-events:none;z-index:50;"></div>
@@ -418,57 +408,6 @@ function initVariableFontBreathing() {
     }());
 }
 
-/* ─────────────────────────────────────────────────────────────────────────────
-   FEATURE 5: Cinematic Film Grain + Vignette Engine
-   Canvas-based noise reacts to scroll velocity — grain intensifies on fast scroll.
-   ─────────────────────────────────────────────────────────────────────────────*/
-function initFilmGrainEngine() {
-    var canvas   = document.getElementById('ck-grain-canvas');
-    var vignette = document.getElementById('ck-vignette');
-    if (!canvas) return;
-
-    var ctx = canvas.getContext('2d');
-    var W = canvas.width  = window.innerWidth;
-    var H = canvas.height = window.innerHeight;
-
-    window.addEventListener('resize', function () {
-        W = canvas.width  = window.innerWidth;
-        H = canvas.height = window.innerHeight;
-    }, { passive: true });
-
-    var lastY = window.scrollY;
-    var vel   = 0;
-
-    window.addEventListener('scroll', function () {
-        var now = window.scrollY;
-        vel = Math.abs(now - lastY);
-        lastY = now;
-    }, { passive: true });
-
-    var tick = 0;
-    (function loop() {
-        tick++;
-        vel *= 0.82; // decay
-
-        // Redraw grain every 4 frames (~15fps grain — cheaper, still looks real)
-        if (tick % 4 === 0) {
-            var img  = ctx.createImageData(W, H);
-            var data = img.data;
-            for (var i = 0; i < data.length; i += 4) {
-                var n = (Math.random() * 255) | 0;
-                data[i] = data[i+1] = data[i+2] = n;
-                data[i+3] = (Math.random() * 28) | 0;
-            }
-            ctx.putImageData(img, 0, 0);
-        }
-
-        var factor     = Math.min(vel / 30, 1);
-        canvas.style.opacity   = (0.035 + factor * 0.065).toFixed(3);
-        if (vignette) vignette.style.opacity = (0.55 + factor * 0.3).toFixed(3);
-
-        requestAnimationFrame(loop);
-    }());
-}
 
 /* ─────────────────────────────────────────────────────────────────────────────
    BOOTSTRAP
@@ -478,7 +417,6 @@ function boot() {
     initCartTrajectory();
     initReceiptCheckout();
     initVariableFontBreathing();
-    initFilmGrainEngine();
 }
 
 // GSAP may not be ready immediately (Vite async)
