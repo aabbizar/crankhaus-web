@@ -10,6 +10,13 @@
     @livewireStyles
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,900;1,9..144,900&display=swap" rel="stylesheet">
+    <style>
+        .font-fraunces { font-family: 'Fraunces', serif; }
+    </style>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
@@ -174,8 +181,8 @@
         <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
             <div class="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
 
-                {{-- EAT. DRINK. RIDE. — Bold Barlow Condensed --}}
-                <h1 class="font-display font-black text-[#eba13d] uppercase flex flex-col items-center justify-center select-none"
+                {{-- EAT. DRINK. RIDE. — Chunky Retro Serif --}}
+                <h1 class="font-fraunces font-black text-[#eba13d] uppercase flex flex-col items-center justify-center select-none"
                     id="hero-main-title"
                     style="font-size: clamp(3.15rem, 9.1vw, 7.7rem); line-height: 0.88; letter-spacing: 0.01em; margin-bottom: 1.5rem;">
                     <span class="block">EAT.</span>
@@ -228,30 +235,32 @@
 
         {{-- ── LIFESTYLE IMAGE SECTION WITH MARQUEE ── --}}
         <section class="w-full relative flex justify-center items-center overflow-hidden h-[80vh] md:h-[100vh]" style="background: #b42638;" id="marquee-section">
-            {{-- Image slightly enlarged (small padding) and square edges --}}
-            <div class="absolute inset-0 z-0 w-full h-full" style="padding: clamp(1.5rem, 4%, 3rem);">
-                <img src="{{ asset('images/fred-moon-0yqa0rMCsYk-unsplash.jpg') }}" alt="Crankhaus Life" class="w-full h-full object-cover rounded-none" style="display:block;">
+            {{-- Image slightly enlarged with parallax overflow hidden setup --}}
+            <div class="absolute inset-0 z-0 w-full h-full overflow-hidden" style="padding: clamp(1.5rem, 4%, 3rem);">
+                <div class="w-full h-full overflow-hidden rounded-none">
+                    <img src="{{ asset('images/fred-moon-0yqa0rMCsYk-unsplash.jpg') }}" alt="Crankhaus Life" id="marquee-bg-img" class="w-full h-full object-cover rounded-none" style="display:block; transform: scale(1.25); transform-origin: center top;">
+                </div>
             </div>
 
             {{-- Scroll-driven marquee: rows move horizontally as page scrolls --}}
             <div class="relative z-10 w-full flex flex-col justify-center pointer-events-none" style="transform: rotate(-2deg) scale(1.12);">
                 {{-- Row 1: scrolls LEFT --}}
                 <div class="whitespace-nowrap overflow-hidden">
-                    <h2 id="mq-row-1" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
+                    <h2 id="mq-row-1" class="font-fraunces font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
                         style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(0);">
                         EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp;
                     </h2>
                 </div>
                 {{-- Row 2: scrolls RIGHT --}}
                 <div class="whitespace-nowrap overflow-hidden -ml-[15vw]">
-                    <h2 id="mq-row-2" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
+                    <h2 id="mq-row-2" class="font-fraunces font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
                         style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(-120px);">
                         FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp;
                     </h2>
                 </div>
                 {{-- Row 3: scrolls LEFT --}}
                 <div class="whitespace-nowrap overflow-hidden -ml-[5vw]">
-                    <h2 id="mq-row-3" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
+                    <h2 id="mq-row-3" class="font-fraunces font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
                         style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(-60px);">
                         PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp; PREMIUM CYCLIST CAFE &nbsp;·&nbsp;
                     </h2>
@@ -744,6 +753,20 @@
                         scrub: true
                     }
                 });
+
+                // PARALLAX IMAGE EFFECT (The image scrolls slightly slower inside its container)
+                if (document.getElementById('marquee-bg-img')) {
+                    gsap.to('#marquee-bg-img', {
+                        yPercent: 15,
+                        ease: 'none',
+                        scrollTrigger: {
+                            trigger: '#marquee-section',
+                            start: 'top bottom',
+                            end: 'bottom top',
+                            scrub: true
+                        }
+                    });
+                }
             }
 
             // ── MENU NAV HOVER IMAGE REVEAL ────────────────────────────────────
