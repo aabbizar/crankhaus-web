@@ -38,7 +38,7 @@
     <span class="gsap-transition-logo">CRANKHAUS</span>
 </div>
 
-{{-- ── Instant bfcache fix: hide layers BEFORE GSAP loads on back/forward ── --}}
+
 <script>
 (function () {
     // This runs synchronously — hides layers immediately if page is restored
@@ -205,3 +205,4 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 3000);
 });
 </script>
+<?php /**PATH C:\laragon\www\agtokosahaja_project\resources\views/components/smooth-site.blade.php ENDPATH**/ ?>

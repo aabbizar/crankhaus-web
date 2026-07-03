@@ -3,21 +3,43 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <meta name="description" content="Crankhaus is Jakarta's premier cyclist café — recovery noodles, bold espresso, and a secure indoor bike vault. Book your table online.">
     <title>CRANKHAUS — Eat. Drink. Ride. Jakarta</title>
 
-    @livewireStyles
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <?php echo \Livewire\Mechanisms\FrontendAssets\FrontendAssets::styles(); ?>
+
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 <body class="bg-[#020b0a] text-[#efe1d9] overflow-x-hidden">
-    @include('components.smooth-site')
-    <x-global-engine />
+    <?php echo $__env->make('components.smooth-site', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
+    <?php if (isset($component)) { $__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.global-engine','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('global-engine'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
+
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a)): ?>
+<?php $attributes = $__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a; ?>
+<?php unset($__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a)): ?>
+<?php $component = $__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a; ?>
+<?php unset($__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a); ?>
+<?php endif; ?>
     <div class="film-grain"></div>
-    {{-- ── FIXED HEADER ── --}}
+    
     <header class="fixed top-0 left-0 w-full z-50 pointer-events-none" id="ch-header">
         <div class="max-w-screen-2xl mx-auto w-full flex justify-between items-center px-4 md:px-8 lg:px-12 py-6">
             <!-- Left balance div -->
@@ -26,7 +48,7 @@
             <!-- Center Logo (bigger) -->
             <div class="flex-1 flex justify-center pointer-events-auto items-center">
                 <a href="/" class="hover:opacity-80 transition-opacity duration-300">
-                    <img src="{{ asset('images/CRANK (1).png') }}" alt="CRANKHAUS" class="h-20 md:h-24 lg:h-28 w-auto object-contain">
+                    <img src="<?php echo e(asset('images/CRANK (1).png')); ?>" alt="CRANKHAUS" class="h-20 md:h-24 lg:h-28 w-auto object-contain">
                 </a>
             </div>
 
@@ -44,7 +66,7 @@
         </div>
     </header>
 
-    {{-- ── FULLSCREEN OVERLAY MENU ── --}}
+    
     <div id="menu-overlay" class="fixed inset-0 z-[100] flex justify-end opacity-0 pointer-events-none" style="transition: opacity 0.35s ease;">
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="menu-backdrop"></div>
@@ -54,30 +76,30 @@
              style="background: #235c47; transform: translateX(100%); transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem); overflow: hidden;"
              id="menu-panel">
 
-            {{-- ── MENU HOVER IMAGES (thrown to center, one per link) ── --}}
+            
             <div class="absolute inset-0 pointer-events-none z-0" id="menu-img-layer" aria-hidden="true">
-                {{-- Each image: starts hidden, GSAP throws it to center on hover --}}
+                
                 <div id="mnav-img-0" class="mnav-img absolute" style="width: clamp(160px,28vw,280px); aspect-ratio:3/4; top:50%; left:50%; opacity:0; transform:translate(-50%,-50%) scale(0.6) rotate(-8deg); pointer-events:none; border-radius:8px; overflow:hidden; will-change:transform,opacity;">
-                    <img src="{{ asset('images/cinematic_cafe_hero.png') }}" alt="" class="w-full h-full object-cover">
+                    <img src="<?php echo e(asset('images/cinematic_cafe_hero.png')); ?>" alt="" class="w-full h-full object-cover">
                 </div>
                 <div id="mnav-img-1" class="mnav-img absolute" style="width: clamp(160px,28vw,280px); aspect-ratio:3/4; top:50%; left:50%; opacity:0; transform:translate(-50%,-50%) scale(0.6) rotate(6deg); pointer-events:none; border-radius:8px; overflow:hidden; will-change:transform,opacity;">
-                    <img src="{{ asset('images/menu_noodles.png') }}" alt="" class="w-full h-full object-cover">
+                    <img src="<?php echo e(asset('images/menu_noodles.png')); ?>" alt="" class="w-full h-full object-cover">
                 </div>
                 <div id="mnav-img-2" class="mnav-img absolute" style="width: clamp(160px,28vw,280px); aspect-ratio:3/4; top:50%; left:50%; opacity:0; transform:translate(-50%,-50%) scale(0.6) rotate(-5deg); pointer-events:none; border-radius:8px; overflow:hidden; will-change:transform,opacity;">
-                    <img src="{{ asset('images/split_reserve.png') }}" alt="" class="w-full h-full object-cover">
+                    <img src="<?php echo e(asset('images/split_reserve.png')); ?>" alt="" class="w-full h-full object-cover">
                 </div>
                 <div id="mnav-img-3" class="mnav-img absolute" style="width: clamp(160px,28vw,280px); aspect-ratio:3/4; top:50%; left:50%; opacity:0; transform:translate(-50%,-50%) scale(0.6) rotate(4deg); pointer-events:none; border-radius:8px; overflow:hidden; will-change:transform,opacity;">
-                    <img src="{{ asset('images/bike_collage.png') }}" alt="" class="w-full h-full object-cover">
+                    <img src="<?php echo e(asset('images/bike_collage.png')); ?>" alt="" class="w-full h-full object-cover">
                 </div>
                 <div id="mnav-img-4" class="mnav-img absolute" style="width: clamp(160px,28vw,280px); aspect-ratio:3/4; top:50%; left:50%; opacity:0; transform:translate(-50%,-50%) scale(0.6) rotate(-3deg); pointer-events:none; border-radius:8px; overflow:hidden; will-change:transform,opacity;">
-                    <img src="{{ asset('images/login_hero_cafe.png') }}" alt="" class="w-full h-full object-cover">
+                    <img src="<?php echo e(asset('images/login_hero_cafe.png')); ?>" alt="" class="w-full h-full object-cover">
                 </div>
             </div>
 
             <!-- Top Logo & Close Button -->
             <div class="relative z-10 w-full flex justify-between items-center" style="padding-bottom: clamp(1rem, 2vh, 1.5rem);">
                 <a href="/" class="hover:opacity-80 transition-opacity">
-                    <img src="{{ asset('images/CRANK (1).png') }}" alt="CRANKHAUS" class="w-auto object-contain" style="height: clamp(2.5rem, 5vw, 4rem);">
+                    <img src="<?php echo e(asset('images/CRANK (1).png')); ?>" alt="CRANKHAUS" class="w-auto object-contain" style="height: clamp(2.5rem, 5vw, 4rem);">
                 </a>
                 <button id="menu-close-btn"
                         class="flex items-center justify-center font-bold text-lg cursor-pointer transition-transform hover:scale-105 active:scale-95"
@@ -117,13 +139,13 @@
                     <!-- V -->
                     <div class="flex items-baseline" style="gap: clamp(1.2rem, 2.5vw, 2.2rem);">
                         <span class="font-mono text-[#eba13d] text-right" style="font-size: clamp(0.75rem, 1.8vw, 1.1rem); font-weight: 700; width: clamp(1.5rem, 3.2vw, 2.8rem); letter-spacing: 0.1em; display: inline-block;">V</span>
-                        @auth
+                        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(auth()->guard()->check()): ?>
                             <a href="/admin" class="mnav-link font-display font-black text-[#eba13d] uppercase leading-none transition-colors relative"
                                style="font-size: clamp(1.8rem, 4.5vw, 3.4rem);" data-mnav-img="4">PORTAL</a>
-                        @else
+                        <?php else: ?>
                             <a href="/login" class="mnav-link font-display font-black text-[#eba13d] uppercase leading-none transition-colors relative"
                                style="font-size: clamp(1.8rem, 4.5vw, 3.4rem);" data-mnav-img="4">LOGIN</a>
-                        @endauth
+                        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -148,7 +170,7 @@
         </div>
     </div>
 
-    {{-- ── Vertical Rotation Text Markers ── --}}
+    
     <div class="fixed left-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-40 hidden lg:block">
         <span class="font-mono text-[9px] uppercase tracking-[0.45em] text-[#efe1d9]/25 rotate-90 inline-block origin-center whitespace-nowrap">EAT</span>
     </div>
@@ -159,22 +181,20 @@
         <span class="font-mono text-[9px] uppercase tracking-[0.45em] text-[#efe1d9]/25 -rotate-90 inline-block origin-center whitespace-nowrap">RIDE</span>
     </div>
 
-    {{-- ─────────────────────────────────────────────
-         HERO — VIDEO BACKGROUND (Lucky Folks style)
-    ───────────────────────────────────────────── --}}
+    
     <section class="relative w-full overflow-hidden" id="hero-section"
              style="height: 100vh; min-height: 600px;">
 
-        {{-- Background Video Loop --}}
+        
         <div class="absolute inset-0 z-0 overflow-hidden" style="background: #020b0a;">
-            <video src="{{ asset('images/202004-916894674_small.mp4') }}" class="w-full h-full object-cover" id="hero-bg-video" autoplay loop muted playsinline style="opacity: 0.85; transform: scale(1.05); will-change: transform;"></video>
+            <video src="<?php echo e(asset('images/202004-916894674_small.mp4')); ?>" class="w-full h-full object-cover" id="hero-bg-video" autoplay loop muted playsinline style="opacity: 0.85; transform: scale(1.05); will-change: transform;"></video>
         </div>
 
-        {{-- Hero Content — Centered --}}
+        
         <div class="relative z-10 h-full flex flex-col justify-center items-center text-center px-6">
             <div class="w-full max-w-5xl mx-auto flex flex-col items-center justify-center">
 
-                {{-- EAT. DRINK. RIDE. — Bold Barlow Condensed --}}
+                
                 <h1 class="font-display font-black text-[#eba13d] uppercase flex flex-col items-center justify-center select-none"
                     id="hero-main-title"
                     style="font-size: clamp(3.15rem, 9.1vw, 7.7rem); line-height: 0.88; letter-spacing: 0.01em; margin-bottom: 1.5rem;">
@@ -193,11 +213,11 @@
 
     <main class="w-full">
 
-        {{-- ── RED TYPOGRAPHY SECTION ── --}}
+        
         <section class="w-full relative flex justify-center min-h-screen items-center" style="background: #b42638;" id="about-section">
             <div class="w-full max-w-[1600px] flex flex-col lg:flex-row items-center">
 
-                {{-- Left: Massive Typography --}}
+                
                 <div class="lg:w-[55%] gsap-3d-reveal" style="padding: clamp(4rem, 8vw, 8rem); padding-right: clamp(1.5rem, 3vw, 3rem);">
                     <h2 class="font-display font-black text-[#eba13d] uppercase leading-[0.95]"
                         style="font-size: clamp(2.5rem, 5.5vw, 5.5rem); letter-spacing: 0.01em;">
@@ -208,7 +228,7 @@
                     </h2>
                 </div>
 
-                {{-- Right: Text Description — ALL YELLOW (as requested) --}}
+                
                 <div class="lg:w-[45%] flex flex-col justify-center gsap-3d-reveal" style="padding: clamp(4rem, 8vw, 8rem); padding-left: clamp(1.5rem, 3vw, 3rem); padding-top: clamp(2rem, 8vw, 8rem);">
                     <p class="font-sans text-[#eba13d] leading-relaxed text-sm md:text-base lg:text-lg mb-6 font-bold tracking-wide">
                         CRANKHAUS is a cycling hub inspired by the spirit of the peloton!
@@ -226,30 +246,30 @@
             </div>
         </section>
 
-        {{-- ── LIFESTYLE IMAGE SECTION WITH MARQUEE ── --}}
+        
         <section class="w-full relative flex justify-center items-center overflow-hidden h-[80vh] md:h-[100vh]" style="background: #b42638;" id="marquee-section">
-            {{-- Image slightly enlarged (small padding) and square edges --}}
+            
             <div class="absolute inset-0 z-0 w-full h-full" style="padding: clamp(1.5rem, 4%, 3rem);">
-                <img src="{{ asset('images/fred-moon-0yqa0rMCsYk-unsplash.jpg') }}" alt="Crankhaus Life" class="w-full h-full object-cover rounded-none" style="display:block;">
+                <img src="<?php echo e(asset('images/fred-moon-0yqa0rMCsYk-unsplash.jpg')); ?>" alt="Crankhaus Life" class="w-full h-full object-cover rounded-none" style="display:block;">
             </div>
 
-            {{-- Scroll-driven marquee: rows move horizontally as page scrolls --}}
+            
             <div class="relative z-10 w-full flex flex-col justify-center pointer-events-none" style="transform: rotate(-2deg) scale(1.12);">
-                {{-- Row 1: scrolls LEFT --}}
+                
                 <div class="whitespace-nowrap overflow-hidden">
                     <h2 id="mq-row-1" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
                         style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(0);">
                         EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp; EAT DRINK AND SHARE &nbsp;·&nbsp;
                     </h2>
                 </div>
-                {{-- Row 2: scrolls RIGHT --}}
+                
                 <div class="whitespace-nowrap overflow-hidden -ml-[15vw]">
                     <h2 id="mq-row-2" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
                         style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(-120px);">
                         FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp; FUEL YOUR NEXT RIDE &nbsp;·&nbsp;
                     </h2>
                 </div>
-                {{-- Row 3: scrolls LEFT --}}
+                
                 <div class="whitespace-nowrap overflow-hidden -ml-[5vw]">
                     <h2 id="mq-row-3" class="font-display font-black uppercase text-[#eba13d] leading-[0.85] inline-block will-change-transform"
                         style="font-size: clamp(5rem, 14vw, 16rem); letter-spacing: -0.02em; transform: translateX(-60px);">
@@ -259,32 +279,32 @@
             </div>
         </section>
 
-        {{-- ── SIGNATURE HOVER REVEAL SECTION ── --}}
+        
         <section class="relative w-full min-h-[125vh] px-6 flex flex-col items-center justify-center py-28 md:py-36 lg:py-44 overflow-hidden"
                  style="background: #efe1d9;" id="signature-reveal-section">
             
-            {{-- Floating Images Containers (Absolute at top-0 left-0 to allow GSAP mouse follow) ── --}}
+            
             <div class="absolute inset-0 pointer-events-none z-0">
                 <!-- Noodle Image -->
                 <div id="hover-img-noodle" class="absolute top-0 left-0 w-[180px] md:w-[230px] lg:w-[280px] aspect-[3/4] rounded-none opacity-0 scale-95 pointer-events-none z-0" style="will-change: transform, opacity;">
-                    <img src="{{ asset('images/mie_fixie_gear.png') }}" alt="Mie Fixie Gear" class="w-full h-full object-cover shadow-lg">
+                    <img src="<?php echo e(asset('images/mie_fixie_gear.png')); ?>" alt="Mie Fixie Gear" class="w-full h-full object-cover shadow-lg">
                 </div>
                 <!-- Espresso Image -->
                 <div id="hover-img-espresso" class="absolute top-0 left-0 w-[180px] md:w-[230px] lg:w-[280px] aspect-[3/4] rounded-none opacity-0 scale-95 pointer-events-none z-0" style="will-change: transform, opacity;">
-                    <img src="{{ asset('images/cadence_booster.png') }}" alt="Cadence Booster" class="w-full h-full object-cover shadow-lg">
+                    <img src="<?php echo e(asset('images/cadence_booster.png')); ?>" alt="Cadence Booster" class="w-full h-full object-cover shadow-lg">
                 </div>
                 <!-- Dimsum Image -->
                 <div id="hover-img-dimsum" class="absolute top-0 left-0 w-[180px] md:w-[230px] lg:w-[280px] aspect-[3/4] rounded-none opacity-0 scale-95 pointer-events-none z-0" style="will-change: transform, opacity;">
-                    <img src="{{ asset('images/signature_dimsum.png') }}" alt="Signature Dimsum" class="w-full h-full object-cover shadow-lg">
+                    <img src="<?php echo e(asset('images/signature_dimsum.png')); ?>" alt="Signature Dimsum" class="w-full h-full object-cover shadow-lg">
                 </div>
             </div>
 
             <!-- Top Logo Icon (Swapped: ATAS CRANK, enlarged) -->
             <div class="relative z-10 gsap-3d-reveal flex justify-center mb-8 md:mb-10 lg:mb-12">
-                <img src="{{ asset('images/BAWAH CRANK.png') }}" alt="Crank Top" class="h-15 md:h-18 lg:h-22 w-auto object-contain">
+                <img src="<?php echo e(asset('images/BAWAH CRANK.png')); ?>" alt="Crank Top" class="h-15 md:h-18 lg:h-22 w-auto object-contain">
             </div>
 
-            {{-- Centered Text Block --}}
+            
             <div class="relative z-10 w-full max-w-screen-2xl mx-auto px-4 md:px-8 text-center flex flex-col items-center justify-center gsap-3d-reveal">
                 <h2 class="font-display font-black text-[#eba13d] uppercase leading-[1.1] select-none text-center max-w-4xl"
                     style="font-size: clamp(2.2rem, 5vw, 4.8rem); letter-spacing: 0.01em;">
@@ -299,15 +319,15 @@
 
             <!-- Bottom Logo Icon (Swapped: BAWAH CRANK, enlarged) -->
             <div class="relative z-10 gsap-3d-reveal flex justify-center mt-8 md:mt-10 lg:mt-12">
-                <img src="{{ asset('images/ATAS CRANK.png') }}" alt="Crank Bottom" class="h-15 md:h-18 lg:h-22 w-auto object-contain">
+                <img src="<?php echo e(asset('images/ATAS CRANK.png')); ?>" alt="Crank Bottom" class="h-15 md:h-18 lg:h-22 w-auto object-contain">
             </div>
         </section>
 
-        {{-- ── SPLIT-SCREEN INTERACTIVE SECTION (Lucky Folks Gambar 5 Style) ── --}}
+        
         <div class="w-full" style="background: #efe1d9;">
             <section class="split-panel-section max-w-screen-2xl mx-auto w-full" id="split-section">
 
-            {{-- Left Panel: MENU --}}
+            
             <a href="/menu" class="sp-panel sp-left relative overflow-hidden" id="sp-left">
                 <div class="sp-bg-img absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('/images/split_menu.png'); opacity: 0; transform: scale(1.05); pointer-events: none;"></div>
                 <span class="sp-number z-10" style="color: #b42638;">I</span>
@@ -319,7 +339,7 @@
                 <div class="sp-arrow z-10" style="background: #b42638; color: #eba13d;">→</div>
             </a>
 
-            {{-- Right Panel: RESERVE --}}
+            
             <a href="/reserve" class="sp-panel sp-right relative overflow-hidden" id="sp-right">
                 <div class="sp-bg-img absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('/images/split_reserve.png'); opacity: 0; transform: scale(1.05); pointer-events: none;"></div>
                 <span class="sp-number z-10" style="color: #235c47;">II</span>
@@ -333,12 +353,12 @@
             </section>
         </div>
 
-        {{-- ── EVENTS LIST ── --}}
-        @if(isset($events) && $events->count() > 0)
+        
+        <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if(isset($events) && $events->count() > 0): ?>
         <section class="w-full min-h-screen flex flex-col justify-center py-12 md:py-24" style="background: #235c47; border-top: 2px solid #eba13d;" id="events">
             <div class="max-w-screen-2xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-0 px-4 md:px-8">
 
-                {{-- Left Header (1/3 Width) --}}
+                
                 <div class="lg:col-span-4 flex flex-col justify-center" style="padding: clamp(2rem, 4vw, 4rem); border-right: 2px solid rgba(235,161,61,0.4);">
                     <span class="font-sans text-[10px] uppercase tracking-widest text-[#eba13d] font-bold block mb-2">Upcoming</span>
                     <h2 class="font-display font-black uppercase leading-[0.9] text-[#eba13d]"
@@ -347,37 +367,40 @@
                     </h2>
                 </div>
 
-                {{-- Right List (2/3 Width) --}}
+                
                 <div class="lg:col-span-8 flex flex-col">
-                    @foreach($events as $event)
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::openLoop(); ?><?php endif; ?><?php $__currentLoopData = $events; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $event): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::startLoopIteration(); ?><?php endif; ?>
                     <div class="w-full flex flex-col md:flex-row gap-8 hover:bg-[#eba13d]/5 transition-colors duration-300"
                          style="border-bottom: 1px solid rgba(235,161,61,0.25); padding: clamp(2rem, 4vw, 4rem);">
 
                         <div class="md:w-1/4 pt-1">
                             <div class="font-sans text-[12px] uppercase tracking-widest text-[#eba13d] font-bold">
-                                {{ isset($event->date) ? \Carbon\Carbon::parse($event->date)->format('d M Y') : 'Upcoming' }}
+                                <?php echo e(isset($event->date) ? \Carbon\Carbon::parse($event->date)->format('d M Y') : 'Upcoming'); ?>
+
                             </div>
                         </div>
 
                         <div class="md:w-3/4">
                             <h3 class="font-display font-black text-2xl md:text-3xl uppercase text-white mb-3 leading-none">
-                                {{ $event->name ?? $event->title ?? 'Event' }}
+                                <?php echo e($event->name ?? $event->title ?? 'Event'); ?>
+
                             </h3>
-                            @if($event->description ?? false)
+                            <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if BLOCK]><![endif]--><?php endif; ?><?php if($event->description ?? false): ?>
                             <p class="font-sans text-[13px] text-white/90 leading-relaxed font-bold max-w-2xl">
-                                {{ $event->description }}
+                                <?php echo e($event->description); ?>
+
                             </p>
-                            @endif
+                            <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
                         </div>
 
                     </div>
-                    @endforeach
+                    <?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::endLoop(); ?><?php endif; ?><?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::closeLoop(); ?><?php endif; ?>
                 </div>
             </div>
         </section>
-        @endif
+        <?php endif; ?><?php if(\Livewire\Mechanisms\ExtendBlade\ExtendBlade::isRenderingLivewireComponent()): ?><!--[if ENDBLOCK]><![endif]--><?php endif; ?>
 
-        {{-- ── RESERVATION CTA (Gambar 1 style) ── --}}
+        
         <section class="w-full flex flex-col items-center justify-center min-h-screen"
                  style="background: #b42638; padding-top: 8vh; padding-bottom: 8vh;" id="reservations">
             <div class="w-full max-w-screen-2xl mx-auto px-4 md:px-8 text-center flex flex-col items-center justify-center">
@@ -407,8 +430,8 @@
 
     </main>
 
-    {{-- ── FOOTER (Background Image - Fixed Perfect Size - Brighter Overlay) ── --}}
-    <footer style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ asset('images/footerfix.jpg') }}') center/cover no-repeat; padding: 16px 10px; width: 100%; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center;">
+    
+    <footer style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('<?php echo e(asset('images/footerfix.jpg')); ?>') center/cover no-repeat; padding: 16px 10px; width: 100%; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center;">
         <div class="w-full max-w-screen-2xl mx-auto flex justify-center items-center px-4">
             <a href="/" style="text-decoration: none; color: white; transition: opacity 0.3s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
                 <div class="font-display font-black" style="line-height: 0.85; letter-spacing: 0.02em; text-align: center;">
@@ -419,7 +442,28 @@
         </div>
     </footer>
 
-    <x-global-engine />
+    <?php if (isset($component)) { $__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a = $component; } ?>
+<?php if (isset($attributes)) { $__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a = $attributes; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.global-engine','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
+<?php $component->withName('global-engine'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
+<?php $attributes = $attributes->except(\Illuminate\View\AnonymousComponent::ignoredParameterNames()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
+<?php \Livewire\Features\SupportCompiledWireKeys\SupportCompiledWireKeys::processComponentKey($component); ?>
+
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a)): ?>
+<?php $attributes = $__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a; ?>
+<?php unset($__attributesOriginalb2ee0d49308cce0fc12d178f41dfc70a); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a)): ?>
+<?php $component = $__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a; ?>
+<?php unset($__componentOriginalb2ee0d49308cce0fc12d178f41dfc70a); ?>
+<?php endif; ?>
     <div class="film-grain"></div>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -828,3 +872,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH C:\laragon\www\agtokosahaja_project\resources\views/welcome.blade.php ENDPATH**/ ?>
